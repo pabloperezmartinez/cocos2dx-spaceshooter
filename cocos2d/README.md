@@ -1,3 +1,8 @@
+Space Shooter
+=========
+
+Este es un proyecto de entrega para la materia de programación de videojuegos de la Universidad Politécnica de Madrid,
+
 <img src="http://www.cocos2d-x.org/attachments/801/cocos2dx_portrait.png" width=200>
 
 

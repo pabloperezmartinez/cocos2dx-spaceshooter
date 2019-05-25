@@ -49,73 +49,51 @@ bool HelloWorld::init()
         return false;
     }
 
-    auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    /////////////////////////////
-    // 2. add a menu item with "X" image, which is clicked to quit the program
-    //    you may modify it.
-
-    // add a "close" icon to exit the progress. it's an autorelease object
-    auto closeItem = MenuItemImage::create(
-                                           "CloseNormal.png",
-                                           "CloseSelected.png",
-                                           CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
-
-    if (closeItem == nullptr ||
-        closeItem->getContentSize().width <= 0 ||
-        closeItem->getContentSize().height <= 0)
-    {
-        problemLoading("'CloseNormal.png' and 'CloseSelected.png'");
-    }
-    else
-    {
-        float x = origin.x + visibleSize.width - closeItem->getContentSize().width/2;
-        float y = origin.y + closeItem->getContentSize().height/2;
-        closeItem->setPosition(Vec2(x,y));
-    }
-
-    // create menu, it's an autorelease object
-    auto menu = Menu::create(closeItem, NULL);
-    menu->setPosition(Vec2::ZERO);
-    this->addChild(menu, 1);
-
-    /////////////////////////////
-    // 3. add your codes below...
-
-    // add a label shows "Hello World"
-    // create and initialize a label
-
-    auto label = Label::createWithTTF("Hello World", "fonts/Marker Felt.ttf", 24);
-    if (label == nullptr)
-    {
-        problemLoading("'fonts/Marker Felt.ttf'");
-    }
-    else
-    {
-        // position the label on the center of the screen
-        label->setPosition(Vec2(origin.x + visibleSize.width/2,
-                                origin.y + visibleSize.height - label->getContentSize().height));
-
-        // add the label as a child to this layer
-        this->addChild(label, 1);
-    }
-
-    // add "HelloWorld" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");
-    if (sprite == nullptr)
-    {
-        problemLoading("'HelloWorld.png'");
-    }
-    else
-    {
-        // position the sprite on the center of the screen
-        sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
-        // add the sprite as a child to this layer
-        this->addChild(sprite, 0);
-    }
+    
+    
+    // 1. Agregar nave espacial
+    _batchNode = SpriteBatchNode::create("Sprites.pvr.ccz");
+    this->addChild(_batchNode);
+    SpriteFrameCache::getInstance()->addSpriteFramesWithFile("Sprites.plist");
+    
+    _ship = Sprite::createWithSpriteFrameName("SpaceFlier_sm_1.png");
+    Size winSize = Director::getInstance()->getWinSize();
+    _ship->setPosition(Vec2(winSize.width * 0.1, winSize.height * 0.5));
+    _batchNode->addChild(_ship, 1);
+    
+    // 2) Crear Nodo Paralax
+    _backgroundNode = ParallaxNode::create(); //1
+    this->addChild(_backgroundNode,-1);
+    
+    // 3) Agrega objetos en nodo Paralax
+    _spacedust1 = Sprite::create("bg_front_spacedust.png");
+    _spacedust2 = Sprite::create("bg_front_spacedust.png");
+    _planetsunrise = Sprite::create("bg_planetsunrise.png");
+    _galaxy = Sprite::create("bg_galaxy.png");
+    _spacialanomaly = Sprite::create("bg_spacialanomaly.png");
+    _spacialanomaly2 = Sprite::create("bg_spacialanomaly2.png");
+    
+    // 3) Determina Velocidad en que corre el fondo
+    Point dustSpeed = Vec2(0.1, 0.1);
+    Point bgSpeed = Vec2(0.05, 0.05);
+    
+    // 4) Agrega hios al nodo Paralax
+    _backgroundNode->addChild(_spacedust1, 0, dustSpeed, Vec2(0,winSize.height/2) ); // 2
+    _backgroundNode->addChild(_spacedust2, 0, dustSpeed, Vec2( _spacedust1->getContentSize().width,winSize.height/2));
+    _backgroundNode->addChild(_galaxy, -1, bgSpeed, Vec2(0, winSize.height * 0.7));
+    _backgroundNode->addChild(_planetsunrise, -1 , bgSpeed, Vec2(600, winSize.height * 0));
+    _backgroundNode->addChild(_spacialanomaly, -1, bgSpeed, Vec2(900, winSize.height * 0.3));
+    _backgroundNode->addChild(_spacialanomaly2, -1, bgSpeed, Vec2(1500, winSize.height * 0.9));
+    
+    this->scheduleUpdate();
     return true;
+}
+
+void HelloWorld::update(float dt) {
+    Point backgroundScrollVert = Vec2(-1000, 0);
+    _backgroundNode->setPosition(ccpAdd(_backgroundNode->getPosition(), ccpMult(backgroundScrollVert, dt)));
 }
 
 

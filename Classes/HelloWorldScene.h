@@ -26,9 +26,23 @@
 #define __HELLOWORLD_SCENE_H__
 
 #include "cocos2d.h"
+#include "ParallaxNodeExtras.h"
+
+USING_NS_CC;
 
 class HelloWorld : public cocos2d::Scene
 {
+private:
+    cocos2d::SpriteBatchNode * _batchNode;
+    cocos2d::Sprite * _ship;
+    ParallaxNodeExtras *_backgroundNode;
+    Sprite *_spacedust1;
+    Sprite *_spacedust2;
+    Sprite *_planetsunrise;
+    Sprite *_galaxy;
+    Sprite *_spacialanomaly;
+    Sprite *_spacialanomaly2;
+    
 public:
     static cocos2d::Scene* createScene();
 
@@ -36,6 +50,8 @@ public:
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
+    
+    void update(float dt);
     
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);

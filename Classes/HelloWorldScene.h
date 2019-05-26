@@ -42,6 +42,7 @@ private:
     Sprite *_galaxy;
     Sprite *_spacialanomaly;
     Sprite *_spacialanomaly2;
+    float _shipPointsPerSecY;
     
 public:
     static cocos2d::Scene* createScene();
@@ -53,6 +54,7 @@ public:
     
     void update(float dt);
     
+    virtual void onAcceleration(CCAcceleration* pAccelerationValue, Event* event);
     // implement the "static create()" method manually
     CREATE_FUNC(HelloWorld);
 };

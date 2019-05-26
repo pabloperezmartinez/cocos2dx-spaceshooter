@@ -49,9 +49,8 @@ bool HelloWorld::init()
     {
         return false;
     }
-
+    Device::setAccelerometerEnabled(true);
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
-
     
     
     // 1. Agregar nave espacial
@@ -94,6 +93,11 @@ bool HelloWorld::init()
     HelloWorld::addChild(ParticleSystemQuad::create("Stars2.plist"));
     HelloWorld::addChild(ParticleSystemQuad::create("Stars3.plist"));
     
+    auto listener = EventListenerAcceleration::create(CC_CALLBACK_2(HelloWorld::onAcceleration, this));
+    
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+    
+    
     return true;
 }
 
@@ -129,6 +133,15 @@ void HelloWorld::update(float dt) {
     
     Point backgroundScrollVert = Vec2(-1000, 0);
     _backgroundNode->setPosition(ccpAdd(_backgroundNode->getPosition(), ccpMult(backgroundScrollVert, dt)));
+    
+    Size winSize = Director::sharedDirector()->getWinSize();
+    float maxY = winSize.height - _ship->getContentSize().height/2;
+    float minY = _ship->getContentSize().height/2;
+    
+    float diff = (_shipPointsPerSecY * dt);
+    float newY = _ship->getPosition().y + diff;
+    newY = MIN(MAX(newY, minY), maxY);
+    _ship->setPosition(Vec2(_ship->getPosition().x, newY));
    
 }
 
@@ -142,6 +155,24 @@ void HelloWorld::menuCloseCallback(Ref* pSender)
 
     //EventCustom customEndEvent("game_scene_close_event");
     //_eventDispatcher->dispatchEvent(&customEndEvent);
-
-
 }
+
+void HelloWorld::onAcceleration(Acceleration* pAccelerationValue, Event* event) {
+    #define KFILTERINGFACTOR 0.1
+    #define KRESTACCELX -0.6
+    #define KSHIPMAXPOINTSPERSEC (winSize.height*0.5)
+    #define KMAXDIFFX 0.2
+    
+    double rollingX;
+    
+    // Cocos2DX inverts X and Y accelerometer depending on device orientation
+    // in landscape mode right x=-y and y=x !!! (Strange and confusing choice)
+    pAccelerationValue->x = pAccelerationValue->y;
+    rollingX = (pAccelerationValue->x * KFILTERINGFACTOR) + (rollingX * (1.0 - KFILTERINGFACTOR));
+    float accelX = pAccelerationValue->x - rollingX;
+    Size winSize = Director::sharedDirector()->getWinSize();
+    float accelDiff = accelX - KRESTACCELX;
+    float accelFraction = accelDiff / KMAXDIFFX;
+    _shipPointsPerSecY = KSHIPMAXPOINTSPERSEC * accelFraction;
+}
+

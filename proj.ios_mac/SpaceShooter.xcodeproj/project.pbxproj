@@ -86,6 +86,8 @@
 		94B991C02299F26900744871 /* Sprites.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94B991B72299F26900744871 /* Sprites.plist */; };
 		94B991C12299F26900744871 /* Stars1.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94B991B82299F26900744871 /* Stars1.plist */; };
 		94B991C22299F26900744871 /* Stars1.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94B991B82299F26900744871 /* Stars1.plist */; };
+		94B991C7229ACB7E00744871 /* ParallaxNodeExtras.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94B991C6229ACB7E00744871 /* ParallaxNodeExtras.cpp */; };
+		94B991C8229ACB7E00744871 /* ParallaxNodeExtras.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94B991C6229ACB7E00744871 /* ParallaxNodeExtras.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
@@ -193,6 +195,8 @@
 		94B991B62299F26900744871 /* Sprites.pvr.ccz */ = {isa = PBXFileReference; lastKnownFileType = file; path = Sprites.pvr.ccz; sourceTree = "<group>"; };
 		94B991B72299F26900744871 /* Sprites.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Sprites.plist; sourceTree = "<group>"; };
 		94B991B82299F26900744871 /* Stars1.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Stars1.plist; sourceTree = "<group>"; };
+		94B991C4229ACB1700744871 /* ParallaxNodeExtras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParallaxNodeExtras.h; sourceTree = "<group>"; };
+		94B991C6229ACB7E00744871 /* ParallaxNodeExtras.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ParallaxNodeExtras.cpp; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -352,6 +356,8 @@
 				46880B8519C43A87006E1F66 /* AppDelegate.h */,
 				46880B8619C43A87006E1F66 /* HelloWorldScene.cpp */,
 				46880B8719C43A87006E1F66 /* HelloWorldScene.h */,
+				94B991C4229ACB1700744871 /* ParallaxNodeExtras.h */,
+				94B991C6229ACB7E00744871 /* ParallaxNodeExtras.cpp */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -584,6 +590,7 @@
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				1AF87B8A1F6F7822007BE51C /* main.m in Sources */,
 				46880B8A19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */,
+				94B991C7229ACB7E00744871 /* ParallaxNodeExtras.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -592,6 +599,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */,
+				94B991C8229ACB7E00744871 /* ParallaxNodeExtras.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
 				46880B8B19C43A87006E1F66 /* HelloWorldScene.cpp in Sources */,
 			);

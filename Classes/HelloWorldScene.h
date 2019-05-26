@@ -26,6 +26,7 @@
 #define __HELLOWORLD_SCENE_H__
 
 #include "cocos2d.h"
+#include "ParallaxNodeExtras.h"
 
 USING_NS_CC;
 
@@ -34,7 +35,7 @@ class HelloWorld : public cocos2d::Scene
 private:
     cocos2d::SpriteBatchNode * _batchNode;
     cocos2d::Sprite * _ship;
-    ParallaxNode *_backgroundNode;
+    ParallaxNodeExtras *_backgroundNode;
     Sprite *_spacedust1;
     Sprite *_spacedust2;
     Sprite *_planetsunrise;

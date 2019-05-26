@@ -24,6 +24,7 @@
 
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
+#include "ParallaxNodeExtras.h"
 
 USING_NS_CC;
 
@@ -64,7 +65,7 @@ bool HelloWorld::init()
     _batchNode->addChild(_ship, 1);
     
     // 2) Crear Nodo Paralax
-    _backgroundNode = ParallaxNode::create(); //1
+    _backgroundNode = ParallaxNodeExtras::create(); //1
     this->addChild(_backgroundNode,-1);
     
     // 3) Agrega objetos en nodo Paralax
@@ -88,12 +89,47 @@ bool HelloWorld::init()
     _backgroundNode->addChild(_spacialanomaly2, -1, bgSpeed, Vec2(1500, winSize.height * 0.9));
     
     this->scheduleUpdate();
+    
+    HelloWorld::addChild(ParticleSystemQuad::create("Stars1.plist"));
+    HelloWorld::addChild(ParticleSystemQuad::create("Stars2.plist"));
+    HelloWorld::addChild(ParticleSystemQuad::create("Stars3.plist"));
+    
     return true;
 }
 
 void HelloWorld::update(float dt) {
+    Point dustSpeed = Vec2(0.1, 0.1);
+    Point bgSpeed = Vec2(0.05, 0.05);
+    
+    Array *spaceDusts = Array::createWithCapacity(2);
+    spaceDusts->addObject(_spacedust1);
+    spaceDusts->addObject(_spacedust2);
+    for ( int ii = 0; ii <spaceDusts->count(); ii++ ) {
+        Sprite * spaceDust = (Sprite *)(spaceDusts->objectAtIndex(ii));
+        float xPosition = _backgroundNode->convertToWorldSpace(spaceDust->getPosition()).x;
+        float size = spaceDust->getContentSize().width;
+        if ( xPosition < -size/2 ) {
+            _backgroundNode->incrementOffset(ccp(spaceDust->getContentSize().width*2,0),spaceDust);
+        }
+    }
+    
+    Array *backGrounds = Array::createWithCapacity(4);
+    backGrounds->addObject(_galaxy);
+    backGrounds->addObject(_planetsunrise);
+    backGrounds->addObject(_spacialanomaly);
+    backGrounds->addObject(_spacialanomaly2);
+    for ( int ii = 0; ii <backGrounds->count(); ii++ ) {
+        CCSprite * background = (Sprite *)(backGrounds->objectAtIndex(ii));
+        float xPosition = _backgroundNode->convertToWorldSpace(background->getPosition()).x;
+        float size = background->getContentSize().width;
+        if ( xPosition < -size ) {
+            _backgroundNode->incrementOffset(Vec2(2000,0),background);
+        }
+    }
+    
     Point backgroundScrollVert = Vec2(-1000, 0);
     _backgroundNode->setPosition(ccpAdd(_backgroundNode->getPosition(), ccpMult(backgroundScrollVert, dt)));
+   
 }
 
 

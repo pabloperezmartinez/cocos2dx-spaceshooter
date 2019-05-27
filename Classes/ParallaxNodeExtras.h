@@ -20,7 +20,7 @@ class ParallaxNodeExtras : public ParallaxNode {
     static ParallaxNodeExtras * create();
     
     // Facility method (it’s expected to have it soon in COCOS2DX)
-    void updatePosition();
+    //void updatePosition();
     
     void incrementOffset(CCPoint offset, CCNode* node); 
 } ;

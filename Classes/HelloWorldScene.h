@@ -30,6 +30,11 @@
 
 USING_NS_CC;
 
+typedef enum {
+    KENDREASONWIN,
+    KENDREASONLOSE
+} EndReason;
+
 class HelloWorld : public cocos2d::Scene
 {
 private:
@@ -42,18 +47,36 @@ private:
     Sprite *_galaxy;
     Sprite *_spacialanomaly;
     Sprite *_spacialanomaly2;
+    float _shipPointsPerSecY;
+    Vector<Sprite*> *_asteroids;
+    int _nextAsteroid;
+    float _nextAsteroidSpawn;
+    Vector<Sprite*> *_shipLasers;
+    int _nextShipLaser;
+    int _lives;
+    double _gameOverTime;
+    bool _gameOver;
     
 public:
     static cocos2d::Scene* createScene();
-
+    void menuCloseCallback(cocos2d::Ref* pSender);
     virtual bool init();
     
     // a selector callback
-    void menuCloseCallback(cocos2d::Ref* pSender);
+    //void menuCloseCallback(cocos2d::Ref* pSender);
     
     void update(float dt);
     
-    // implement the "static create()" method manually
+    virtual void onAcceleration(Acceleration* pAccelerationValue, Event* event);
+    
+    float randomValueBetween(float low, float high);
+    void setInvisible(Node * node);
+    float getTimeTick();
+    void onTouchesBegan(const std::vector<Touch*>& touches, Event *event);
+    void endScene(EndReason endReason);
+    void restartTapped();
+    //virtual void onTouchBegan(Touch* touch, Event* event);
+    
     CREATE_FUNC(HelloWorld);
 };
 

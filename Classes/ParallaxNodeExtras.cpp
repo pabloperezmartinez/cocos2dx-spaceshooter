@@ -12,16 +12,37 @@
 class PointObject : public Ref
 {
 public:
-    inline void setRation(Point ratio) {_ratio = ratio;}
-    inline void setOffset(Point offset) {_offset = offset;}
-    inline void setChild(Node *var) {_child = var;}
-    inline Point getOffset() const {return _offset;}
-    inline Node* getChild() const {return _child;}
+    static PointObject * create(Point ratio, Point offset)
+    {
+        PointObject *ret = new PointObject();
+        ret->initWithPoint(ratio, offset);
+        ret->autorelease();
+        return ret;
+    }
+    
+    bool initWithPoint(Point ratio, Point offset)
+    {
+        _ratio = ratio;
+        _offset = offset;
+        _child = nullptr;
+        return true;
+    }
+    
+    inline const Point& getRatio() const { return _ratio; };
+    inline void setRatio(const Point& ratio) { _ratio = ratio; };
+    
+    inline const Point& getOffset() const { return _offset; };
+    inline void setOffset(const Point& offset) { _offset = offset; };
+    
+    inline Node* getChild() const { return _child; };
+    inline void setChild(Node* child) { _child = child; };
+    
 private:
     Point _ratio;
     Point _offset;
-    Node* _child;
+    Node *_child; // weak ref
 };
+
 
 ParallaxNodeExtras* ParallaxNodeExtras::create()
 {
@@ -36,29 +57,6 @@ ParallaxNodeExtras* ParallaxNodeExtras::create()
         node = 0;
     }
     return node;
-}
-
-void ParallaxNodeExtras::updatePosition()
-{
-    int safeOffset = -10;
-    // Get visible size
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    // 1. For each child of an parallax node
-    for(int i = 0; i < _children.size(); i++)
-    {
-        auto node = _children.at(i);
-        // 2. We check whether it is out of the left side of the visible area
-        if(convertToWorldSpace(node->getPosition()).x + node->getContentSize().width < safeOffset)
-            // 3. Find PointObject that corresponds to current node
-            for(int i = 0; i < _parallaxArray->num; i++)
-            {
-                auto po = (PointObject*)_parallaxArray->arr[i];
-                // If yes increase its current offset on the value of visible width
-                if(po->getChild() == node)
-                    po->setOffset(po->getOffset() +
-                                  Point(visibleSize.width + node->getContentSize().width,0));
-            }
-    }
 }
 
 void ParallaxNodeExtras::incrementOffset(Point offset,Node* node){
